@@ -43,7 +43,9 @@ public:
         char ch;
         while(EOF!=(ch= fgetc(fid))){
             if (hashwindow.size() < N_GRAM_K){
-                hashwindow.push_back(ch);
+                if(ch != ' ' && ch != '\n' && ch != '\t'){
+                    hashwindow.push_back(ch);
+                }
             }
             else{
                 hashlist.push_back(RSHash());
