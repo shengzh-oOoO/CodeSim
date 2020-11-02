@@ -8,7 +8,6 @@
 
 using namespace std;
 #define FILENAME_MAXLEN 100
-#define N_GRAM_K 10
 #define WINNOWING_SIZE 3
 bool debug_option = 0;
 class CodeFile{
@@ -16,12 +15,10 @@ private:
     char filename[FILENAME_MAXLEN];
     list<char> hashwindow;
     vector<long> hashlist;
-
     long RSHash(){
         long b = 378551;
         long a = 63689;
         long hash = 0;
-        assert(hashwindow.size() == N_GRAM_K);
         list<char>::iterator i;
         for (i = hashwindow.begin(); i != hashwindow.end(); i++){
             hash = hash * a + (long) (*i);
@@ -42,16 +39,12 @@ public:
         }
         char ch;
         while(EOF!=(ch= fgetc(fid))){
-            if (hashwindow.size() < N_GRAM_K){
-                if(ch != ' ' && ch != '\n' && ch != '\t'){
-                    hashwindow.push_back(ch);
-                }
-            }
-            else{
-                hashlist.push_back(RSHash());
-
-                hashwindow.pop_front();
+            if(ch != ' ' && ch != '\t' && ch != '\n'){
                 hashwindow.push_back(ch);
+            }
+            else if (ch == '\n'){
+                hashlist.push_back(RSHash());
+                hashwindow.clear();
             }
         }
     }
