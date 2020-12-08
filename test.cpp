@@ -11,12 +11,12 @@ float result[10]={0};
 int len = 0;
 
 void PrintFinalResult(){
-    float f_result = 1;
+    float f_result = 0;
     for (int i = 0; i < len; i++){
-        f_result = f_result * result[i];
-        //printf("%0.1f\n",result[i]);
+        f_result = f_result + result[i];
+        printf("%0.1f\n",result[i]);
     }
-    f_result = pow(f_result,((float)1)/((float)len));
+    f_result = f_result / float(len);
     printf("%0.1f\n",f_result);
 }
 void Shell(char* str){

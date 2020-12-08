@@ -9,7 +9,7 @@
 using namespace std;
 #define FILENAME_MAXLEN 100
 #define N_GRAM_K 10
-#define WINNOWING_SIZE 3
+#define WINNOWING_SIZE 5
 bool debug_option = 0;
 class CodeFile{
 private:
@@ -24,9 +24,11 @@ private:
         assert(hashwindow.size() == N_GRAM_K);
         list<char>::iterator i;
         for (i = hashwindow.begin(); i != hashwindow.end(); i++){
+        	// printf("%c", (*i));
             hash = hash * a + (long) (*i);
             a = a * b;
         }
+        // printf("\n");
         return hash;
     }
 public:
@@ -40,19 +42,24 @@ public:
             printf("打开%s失败\n",filename);
             assert(false);
         }
-        char ch;
+        char ch = 0;
+        char prev_ch = 0;
         while(EOF!=(ch= fgetc(fid))){
+        	if (ch=='\n'||ch=='\t'){
+        		ch = ' ';
+        	}
+        	if(prev_ch == ' '&& ch ==' '){
+        		continue;
+        	}
             if (hashwindow.size() < N_GRAM_K){
-                if(ch != ' ' && ch != '\n' && ch != '\t'){
-                    hashwindow.push_back(ch);
-                }
+                hashwindow.push_back(ch);    
             }
             else{
                 hashlist.push_back(RSHash());
-
                 hashwindow.pop_front();
                 hashwindow.push_back(ch);
             }
+            prev_ch = ch;
         }
     }
     void Winnowing(){

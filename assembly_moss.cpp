@@ -8,7 +8,8 @@
 
 using namespace std;
 #define FILENAME_MAXLEN 100
-#define WINNOWING_SIZE 3
+#define WINNOWING_SIZE 2
+#define KLINES 3
 bool debug_option = 0;
 class CodeFile{
 private:
@@ -37,12 +38,22 @@ public:
             printf("打开%s失败\n",filename);
             assert(false);
         }
-        char ch;
+        char ch = 0;
+        char prev_ch = 0;
+        int linecnt = 0;
         while(EOF!=(ch= fgetc(fid))){
-            if(ch != ' ' && ch != '\t' && ch != '\n'){
-                hashwindow.push_back(ch);
+            if (ch=='\t'){
+                ch = ' ';
             }
-            else if (ch == '\n'){
+            if(prev_ch == ' '&& ch ==' '){
+                continue;
+            }
+            if(prev_ch == '\n'&& ch =='\n'){
+                continue;
+            }
+            hashwindow.push_back(ch);
+            prev_ch = ch;
+            if (ch == '\n'){
                 hashlist.push_back(RSHash());
                 hashwindow.clear();
             }
