@@ -28,7 +28,7 @@ void Shell(char* str){
 }
 int main(int argc, char **argv){
     memset(input,0,sizeof(input));
-    sprintf(input,"./text_moss %s %s", argv[1], argv[2]);
+    sprintf(input,"./bin/text_moss %s %s", argv[1], argv[2]);
     Shell(input);
     result[len++] = atof(buffer);
 
@@ -62,7 +62,7 @@ int main(int argc, char **argv){
     Shell(input);
     
     memset(input,0,sizeof(input));
-    sprintf(input,"./assembly_moss %s %s", sfile1, sfile2);
+    sprintf(input,"./bin/assembly_moss %s %s", sfile1, sfile2);
     Shell(input);
     result[len++] = atof(buffer);
 
