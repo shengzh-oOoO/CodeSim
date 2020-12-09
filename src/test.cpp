@@ -14,7 +14,7 @@ void PrintFinalResult(){
     float f_result = 0;
     for (int i = 0; i < len; i++){
         f_result = f_result + result[i];
-        printf("%0.1f\n",result[i]);
+        //printf("%0.1f\n",result[i]);
     }
     f_result = f_result / float(len);
     printf("%0.1f\n",f_result);
